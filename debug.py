@@ -4,7 +4,6 @@ import sys
 sys.path.append("./build") 
 import os
 import shutil
-
 import pyABP
 
 #// geometry and size
@@ -28,11 +27,11 @@ import pyABP
 #// options
 #bool saveText; // save as text file
 #bool saveVTK; // save as vtk file
-	
+##TODO make sure this lines up with python dictionary on analysis end
 params={}
 # system
 params["N"]=2000
-params["L"]=100.0
+params["L"]= 100.0
 
 # dynamics
 params["dt"]=0.01
@@ -43,17 +42,17 @@ params["mu"]=1.0
 params["Dr"]=0.001
 params["v0"]=0.1
 #// Interaction
-params["k"]=1.0
+params["k"]= 1.0
 params["poly"]=0.2
 
 # C++ internal: debugging output?
 params["verbose"]=False
 
 # Python script options only
-params["Nsteps"]=100000
-params["freq"]=1000
+params["Nsteps"]=1000
+params["freq"]=100
 params["saveText"]=True
-params["saveVTK"]=True
+params["saveVTK"]=False
 
 print(params)
 
@@ -63,15 +62,18 @@ thisSystem = pyABP.System(params)
 nsave = int(params["Nsteps"]/params["freq"])
 
 # make test output directory. Delete previous version first
-shutil.rmtree("test") 
-os.mkdir('test')
+k = params["k"]
+folder_name = f"data/pyABP_k_{k}"
+try:
+	os.mkdir(folder_name)
+except FileExistsError:
+	shutil.rmtree(folder_name)
+	os.mkdir(folder_name)
 
-
-for k in range(nsave):
+for i in range(nsave):
 	thisSystem.step(params["freq"])
-	# basic output (text so far)
-	filename1 = 'test/data'+str(k)+'.dat'
-	filename2 = 'test/data'+str(k)+'.vtp'
+	filename1 = folder_name +'/data'+str(i)+'.dat'
+	filename2 = folder_name +'/data'+str(i)+'.vtp'
 	# void output(string filename, bool _saveText, bool _saveVTP);
 	thisSystem.output(filename1,filename2,params["saveText"],params["saveVTK"])
-	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str((k+1)*params["freq"]))
+	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str((i+1)*params["freq"]))

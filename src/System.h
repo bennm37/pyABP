@@ -45,6 +45,7 @@ class System {
 		//~System();
 		
 		void InitialiseRandom();
+		void InitialiseCircle();
 		void step(int _nsteps);
 		void step1();
 		void output(string filename1, string filename2, bool _saveText, bool _saveVTP);

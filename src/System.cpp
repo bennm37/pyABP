@@ -45,6 +45,7 @@ System::System(Parameters param0): param(param0) {
 	randini = new RNG(param.seed);
 	
 	// Create interaction
+	//TODO how to handle this with different interactions
 	cout << "k " << param.k << " L " << param.L <<  endl;
 	inter= new Interaction(param.k,param.L);
 	cout << "done with interaction " << endl;
@@ -54,8 +55,8 @@ System::System(Parameters param0): param(param0) {
 	grator = new Integrator(param.mu, param.v0, param.Dr, dynseed, param.dt);
 	cout << "done with integrator " << endl;
 	
-	// initalise particles: currently random as only option
-	InitialiseRandom();
+	// initalise particles: random or cirlce are options
+	InitialiseCircle();
 	cout << "done with initialisation " << endl;
 	
 	// create Neighbourlist
@@ -113,6 +114,20 @@ void System::InitialiseRandom() {
 		double R = 1.0+ param.poly*(randini->uniform()-0.5); // uniformly distributed between (1-poly) and (1+poly)
 		particles.push_back(Particle(i,x,y,theta,R));
 	}	
+}
+
+void System::InitialiseCircle() {
+	//set up the system in a circle of packing fraction 1
+	for (int i = 0; i< param.N; i++){
+		double radius = param.N;
+		double r = sqrt(radius*(randini->uniform()));
+		double theta_r = 2*M_PI*(randini->uniform()-0.5); 
+		double x = r*cos(theta_r);
+		double y= r*sin(theta_r);
+		double theta = 2*M_PI*(randini->uniform()-0.5); 
+		double R = 1.0;
+		particles.push_back(Particle(i,x,y,theta,R));
+	}
 }
 
 
