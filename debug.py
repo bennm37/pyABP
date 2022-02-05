@@ -63,7 +63,7 @@ nsave = int(params["Nsteps"]/params["freq"])
 
 # make test output directory. Delete previous version first
 k = params["k"]
-folder_name = f"data/pyABP_k_{k}"
+folder_name = f"data/pyABP_k2_bh_test"
 try:
 	os.mkdir(folder_name)
 except FileExistsError:

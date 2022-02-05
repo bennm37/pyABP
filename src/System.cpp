@@ -47,7 +47,7 @@ System::System(Parameters param0): param(param0) {
 	// Create interaction
 	//TODO how to handle this with different interactions
 	cout << "k " << param.k << " L " << param.L <<  endl;
-	inter= new Interaction(param.k,param.L);
+	inter= new Interactionk2(param.k,1.3,0.2,param.L);
 	cout << "done with interaction " << endl;
 	// Create dynamics
 	int dynseed = static_cast<int>(param.N*randini->uniform());

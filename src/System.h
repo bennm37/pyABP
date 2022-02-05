@@ -26,7 +26,7 @@ class System {
 		Parameters param;
 		vector<Particle> particles;
 		RNG *randini;
-		Interaction *inter;
+		Interactionk2 *inter;
 		Integrator *grator;
 		NeighbourList *neighbours;
 		Output *writeout;
