@@ -21,7 +21,6 @@ namespace py = pybind11;
 
 
 class System {
-	
 	private:
 		Parameters param;
 		vector<Particle> particles;

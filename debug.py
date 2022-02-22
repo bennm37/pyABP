@@ -31,7 +31,7 @@ import pyABP
 params={}
 # system
 params["N"]=2000
-params["L"]= 100.0
+params["L"]= 250
 
 # dynamics
 params["dt"]=0.01
@@ -39,10 +39,12 @@ params["seed"]=1
 
 # ABPs
 params["mu"]=1.0
-params["Dr"]=0.001
+params["Dr"]=0.1
 params["v0"]=0.1
-#// Interaction
+# Interaction
 params["k"]= 1.0
+params["k2"] = 1.0
+params["epsilon"] = 0.15
 params["poly"]=0.2
 
 # C++ internal: debugging output?

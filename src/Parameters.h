@@ -19,6 +19,9 @@ struct Parameters {
 	double v0; // self-propulsion velocity
 	// Interaction
 	double k; // interaction stiffness
+	//TODO how to handle when not k2 potential?
+	double k2;
+	double epsilon;
 	double poly; // polydispersity
 	
 	// options

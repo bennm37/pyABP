@@ -13,6 +13,7 @@ System::System(py::dict& parameters): System(Caster(parameters)){
 // transfer parameters out of dictionary into C++ struct (done the pedestrian way here)
 Parameters System::Caster(py::dict& parameters) {
 	Parameters param;
+	// param.type = parameters["type"].cast<string>;  //what potential does the system use
 	param.N = parameters["N"].cast<int>(); // Number of particles
 	param.L = parameters["L"].cast<double>(); // system size
 	
@@ -24,9 +25,13 @@ Parameters System::Caster(py::dict& parameters) {
 	param.mu =  parameters["mu"].cast<double>();  // mobility
 	param.Dr =  parameters["Dr"].cast<double>();  // rotational diffusion constant
 	param.v0 =  parameters["v0"].cast<double>();  // self-propulsion velocity
-	param.k =  parameters["k"].cast<double>();  // interaction stiffness
 	param.poly =  parameters["poly"].cast<double>();  // polydispersity of particles (mean 1 hardcoded for now)
 	
+	//potential parameters
+	param.k =  parameters["k"].cast<double>();  // interaction stiffness
+	//TODO how to handle cases when parameters["k2"] not defined?
+	param.k2 =  parameters["k2"].cast<double>();  // cohesion strength
+	param.epsilon =  parameters["epsilon"].cast<double>();  // cohesion range
 	// Internal options
 	param.verbose = parameters["verbose"].cast<bool>();
 	
@@ -47,7 +52,7 @@ System::System(Parameters param0): param(param0) {
 	// Create interaction
 	//TODO how to handle this with different interactions
 	cout << "k " << param.k << " L " << param.L <<  endl;
-	inter= new Interactionk2(param.k,1.3,0.2,param.L);
+	inter= new Interactionk2(param.k,param.k2,param.epsilon,param.L);
 	cout << "done with interaction " << endl;
 	// Create dynamics
 	int dynseed = static_cast<int>(param.N*randini->uniform());
