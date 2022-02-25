@@ -30,5 +30,14 @@ class Interactionk2: public Interaction{
 
 };	
 
-
+class Interactiondel: public Interaction{
+	private:
+		double delta; //cohesion
+		double epsilon; //range
+	public:
+		Interactiondel(double k, double delta, double epsilon, double L);
+		//~ signifies this is a destructor 
+		~Interactionk2();
+		double force (Particle & _i, Particle & _j, int updatewhich);
+};	
 #endif
