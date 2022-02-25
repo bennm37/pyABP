@@ -1,6 +1,7 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
-
+#include <iostream>
+using namespace std;
 // Struct for parametrs of the simulation (collection of properties, not a class)
 struct Parameters {
 	// geometry and size
@@ -19,8 +20,11 @@ struct Parameters {
 	double v0; // self-propulsion velocity
 	// Interaction
 	double k; // interaction stiffness
+	double epsilon; //adhesion slope range 
 	double poly; // polydispersity
-	
+	int inter_type;
+	double k2; //adhesion slope 
+	double delta; //adhesion flat range 
 	// options
 	bool verbose; // whether to print debugging output
 	//bool saveText; // save as text file

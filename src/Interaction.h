@@ -37,7 +37,8 @@ class Interactiondel: public Interaction{
 	public:
 		Interactiondel(double k, double delta, double epsilon, double L);
 		//~ signifies this is a destructor 
-		~Interactionk2();
+		~Interactiondel();
 		double force (Particle & _i, Particle & _j, int updatewhich);
+
 };	
 #endif

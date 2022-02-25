@@ -26,10 +26,12 @@ Parameters System::Caster(py::dict& parameters) {
 	param.v0 =  parameters["v0"].cast<double>();  // self-propulsion velocity
 	param.k =  parameters["k"].cast<double>();  // interaction stiffness
 	param.poly =  parameters["poly"].cast<double>();  // polydispersity of particles (mean 1 hardcoded for now)
-	
+	param.inter_type = parameters["inter_type"].cast<int>();
+	param.epsilon = parameters["epsilon"].cast<double>();
+	param.k2 = parameters["k2"].cast<double>();
+	param.delta = parameters["delta"].cast<double>();
 	// Internal options
 	param.verbose = parameters["verbose"].cast<bool>();
-	
 	return param;
 }
 	
@@ -47,7 +49,20 @@ System::System(Parameters param0): param(param0) {
 	// Create interaction
 	//TODO how to handle this with different interactions
 	cout << "k " << param.k << " L " << param.L <<  endl;
-	inter= new Interactionk2(param.k,1.3,0.2,param.L);
+	const char *delta_type = "delta";
+	const char *k2_type = "k2";
+	if (param.inter_type==1){
+		cout << "Using type k2" << endl;
+		inter= new Interactionk2(param.k,param.k2,param.epsilon,param.L);
+	}
+	else if (param.inter_type==2){
+		cout << "Using type delta" << endl;
+		inter= new Interactiondel(param.k,param.delta,param.epsilon,param.L);
+	}
+	else {
+		cout << "Using normal interaction" << endl;
+		inter= new Interaction(param.k,param.L);
+	}
 	cout << "done with interaction " << endl;
 	// Create dynamics
 	int dynseed = static_cast<int>(param.N*randini->uniform());

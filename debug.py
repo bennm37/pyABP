@@ -43,7 +43,12 @@ params["Dr"]=0.001
 params["v0"]=0.1
 #// Interaction
 params["k"]= 1.0
+params["epsilon"]=0.15
 params["poly"]=0.2
+## repulsion is 0,  k2 is 1, delta is 2
+params["inter_type"]= 2
+params["k2"]=1
+params["delta"]=1
 
 # C++ internal: debugging output?
 params["verbose"]=False
