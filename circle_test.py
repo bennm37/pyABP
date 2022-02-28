@@ -5,6 +5,7 @@ sys.path.append("./build")
 import os
 import shutil
 import pyABP
+import pickle
 ##FILLING PARAMETER DICTIONARY
 params={}
 # system
@@ -54,14 +55,15 @@ def circle_test(params,folder_name):
 		thisSystem.output(filename1,filename2,params["saveText"],params["saveVTK"])
 		print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str((i+1)*params["freq"]))
 
-k2s = [0.4]
-epsilons = [0.05] 
-params["inter_type"] = 1
-# k2s = [0.4,0.8,1.2,1.6,2]
-# epsilons = [0.05,0.1,0.15,0.2,0.25,0.3] 
-for k2 in k2s:
-	for epsilon in epsilons:
-		params["k2"] = k2
-		params["epsilon"] = epsilon
-		folder_name = f"./data/pyABP_k2_{k2}_ep_{epsilon}"
-		circle_test(params,folder_name)
+def get_parameter_suffix(dict):
+    keys = dict.keys()
+    vals = [round(v,2) for v in dict.values()]
+    out = "_".join([str(k)+"_"+str(v) for k,v in zip(keys,vals)])
+    return out
+
+def simulation(folder_name,search_grid,params,data_type ="pyABP"):
+	for row in search_grid:
+		for dict in row:
+			f_name = get_parameter_suffix(dict)
+			root_rvd = f"{folder_name}/{f_name}/rvd_data"
+			circle_test(params,root_rvd)
