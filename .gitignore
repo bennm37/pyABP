@@ -3,3 +3,5 @@ build
 include
 ignore_me.txt
 .vscode
+__pycache__
+*.pycache
