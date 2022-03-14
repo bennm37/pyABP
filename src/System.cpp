@@ -51,18 +51,31 @@ System::System(Parameters param0): param(param0) {
 	cout << "k " << param.k << " L " << param.L <<  endl;
 	const char *delta_type = "delta";
 	const char *k2_type = "k2";
-	if (param.inter_type==1){
-		cout << "Using type k2" << endl;
-		inter= new Interactionk2(param.k,param.k2,param.epsilon,param.L);
-	}
-	else if (param.inter_type==2){
-		cout << "Using type delta" << endl;
-		inter= new Interactiondel(param.k,param.delta,param.epsilon,param.L);
-	}
-	else {
-		cout << "Using normal interaction" << endl;
-		inter= new Interaction(param.k,param.L);
-	}
+	//TODO if we declare inter as an interaction object in header do we need to downcast?
+	// if (param.inter_type==1){
+	// 	cout << "Using type k2" << endl;
+	// 	// inter = new Interaction(param.k,param.L); //param.k2,param.epsilon,
+	// 	// Interactionk2 inter=inter;
+	// 	// cout << in
+	// 	inter = new Interactionk2(param.k,param.k2,param.epsilon,param.L); 
+	// }
+	// else if (param.inter_type==2){
+	// 	cout << "Using type delta" << endl;
+	// 	cout << "Delta is " << param.delta << " Epsilon is " << param.epsilon << endl;
+	// 	// inter= new Interactiondel(param.k,param.delta,param.epsilon,param.L);
+	// 	inter = new Interaction(param.k,param.L); //param.k2,param.epsilon,
+	// 	Interactiondel *pInteractiondel = (Interactiondel * ) &inter;
+	// 	inter->delta = param.delta;
+	// 	inter->epsilon = param.epsilon;
+	// 	cout <<inter->delta<<endl ;
+	// }
+	// else {
+	// 	cout << "Using normal interaction" << endl;
+	// 	inter = new Interaction(param.k,param.L);
+	// 	// Interaction inter(param.k,param.L);
+	// }
+	cout << "Delta is " << param.delta << " Epsilon is " << param.epsilon<<endl;
+	inter = new Interactiondel(param.k,param.delta,param.epsilon,param.L);
 	cout << "done with interaction " << endl;
 	// Create dynamics
 	int dynseed = static_cast<int>(param.N*randini->uniform());
@@ -71,12 +84,13 @@ System::System(Parameters param0): param(param0) {
 	cout << "done with integrator " << endl;
 	
 	// initalise particles: random or cirlce are options
-	InitialiseCircle();
+	// InitialiseCircle();
+	InitialiseInteractionTest();
 	cout << "done with initialisation " << endl;
 	
 	// create Neighbourlist
 	// now we now the cutoff length for the NeighbourList
-	double cutoff0 = 2*(1.0+param.poly);
+	double cutoff0 = 2*(1.0+param.poly)*(1+2*param.epsilon+param.delta);
 	cout << cutoff0 << endl;
 	// Except we want an integer number inside the box
 	// nbox = L/cutoff0, rounded down, recompute cutoff = L/nbox
@@ -140,10 +154,49 @@ void System::InitialiseCircle() {
 		double x = r*cos(theta_r);
 		double y= r*sin(theta_r);
 		double theta = 2*M_PI*(randini->uniform()-0.5); 
-		double R = 1.0;
+		double R = 1.0+ param.poly*(randini->uniform()-0.5);
 		particles.push_back(Particle(i,x,y,theta,R));
 	}
 }
+
+void System::InitialiseInteractionTest() {
+	//set up the system in a circle of packing fraction 1
+	double theta = 2*M_PI*(randini->uniform()-0.5); 
+	double R = 1.0;
+	double x = -3;
+	double y = 0;
+	double i = 0;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = 3;
+	y = 0;
+	i = i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = -1.5;
+	y = 4;
+	i = i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = 1.5;
+	y = 4;
+	i=i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = -1;
+	y = 8;
+	i=i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = 1;
+	y = 8;
+	i=i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = -0.5;
+	y = 12;
+	i=i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+	x = 0.5;
+	y = 12;
+	i=i+1;
+	particles.push_back(Particle(i,x,y,theta,R));
+}
+
 
 
 // Multiple stepping: mirrored in pybind

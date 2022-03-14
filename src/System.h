@@ -26,7 +26,7 @@ class System {
 		Parameters param;
 		vector<Particle> particles;
 		RNG *randini;
-		Interaction *inter;
+		Interactiondel *inter;
 		Integrator *grator;
 		NeighbourList *neighbours;
 		Output *writeout;
@@ -46,6 +46,7 @@ class System {
 		
 		void InitialiseRandom();
 		void InitialiseCircle();
+		void InitialiseInteractionTest();
 		void step(int _nsteps);
 		void step1();
 		void output(string filename1, string filename2, bool _saveText, bool _saveVTP);

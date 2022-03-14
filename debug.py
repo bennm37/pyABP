@@ -54,10 +54,10 @@ params["delta"]=1
 params["verbose"]=False
 
 # Python script options only
-params["Nsteps"]=1000
+params["Nsteps"]=50
 params["freq"]=100
 params["saveText"]=True
-params["saveVTK"]=False
+params["saveVTK"]=True
 
 print(params)
 

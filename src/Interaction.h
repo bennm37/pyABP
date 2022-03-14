@@ -1,6 +1,5 @@
 #ifndef INTERACTION_H
 #define INTERACTION_H
-
 # include "Particle.h"
 
 class Interaction {
@@ -12,7 +11,6 @@ protected:
 public:
 	// actual interaction parameters
 	Interaction(double k, double L);
-	~Interaction();
 	double force (Particle & _i, Particle & _j, int updatewhich);
 	double torque (Particle & _i, Particle & _j,int updatewhich) { } // no deterministic torques in ABPs: do nothing
 	double wrap(double dx);
@@ -24,20 +22,15 @@ class Interactionk2: public Interaction{
 		double epsilon; //range
 	public:
 		Interactionk2(double k, double k2, double epsilon, double L);
-		//~ signifies this is a destructor 
-		~Interactionk2();
 		double force (Particle & _i, Particle & _j, int updatewhich);
 
 };	
 
 class Interactiondel: public Interaction{
-	private:
+	public:
 		double delta; //cohesion
 		double epsilon; //range
-	public:
 		Interactiondel(double k, double delta, double epsilon, double L);
-		//~ signifies this is a destructor 
-		~Interactiondel();
 		double force (Particle & _i, Particle & _j, int updatewhich);
 
 };	
