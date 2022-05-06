@@ -84,8 +84,8 @@ System::System(Parameters param0): param(param0) {
 	cout << "done with integrator " << endl;
 	
 	// initalise particles: random or cirlce are options
-	// InitialiseCircle();
-	InitialiseInteractionTest();
+	InitialiseCircle();
+	// InitialiseInteractionTest();
 	cout << "done with initialisation " << endl;
 	
 	// create Neighbourlist

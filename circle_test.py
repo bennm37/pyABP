@@ -47,6 +47,7 @@ def circle_test(params,folder_name):
 	try:
 		os.mkdir(folder_name)
 	except FileExistsError:
+		print("File exists")
 		shutil.rmtree(folder_name)
 		os.mkdir(folder_name)
 
